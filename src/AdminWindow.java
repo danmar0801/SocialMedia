@@ -3,8 +3,8 @@ import java.awt.*;
 
 public class AdminWindow extends JFrame {
     private String panelColor = "#222828";
-    private String buttonColor = "#419b60";
-    private String fieldColor = "#6cc18a";
+    private String buttonColor = "#2954a9";
+    private String fieldColor = "#4974b2";
     private String labelColor = "#fcfdfc";
 
 
