@@ -2,64 +2,200 @@ import javax.swing.*;
 import java.awt.*;
 
 public class AdminWindow extends JFrame {
+    private String panelColor = "#f0f1f5";
+    private String buttonColor = "#637f97";
+    private String fieldColor = "#a6c0c5";
+    private String labelColor = "#040604";
+
 
     public AdminWindow() {
-        // set the title of the window
-        setTitle("My Window");
+        initializeComponents();
 
-        // set the default close operation to exit the application
+        changeButtonColors(this.getContentPane(), Color.decode(buttonColor), Color.WHITE);
+        changePanelBackground(this.getContentPane(), Color.decode(panelColor));
+        changeLabelColors(this.getContentPane(), Color.decode(labelColor));
+        changeTextFieldColors(this.getContentPane(), Color.decode(fieldColor), Color.WHITE);
+    }
+
+    private void initializeComponents() {
+        // Configure the main window properties
+        setTitle("The Amazing CPP Social Network");
         setDefaultCloseOperation(JFrame.EXIT_ON_CLOSE);
+        setSize(1000, 700);
+        setResizable(false);
+        setLocationRelativeTo(null);
 
-        // set the layout manager
-        getContentPane().setLayout(new BorderLayout());
-
-        // Panel on the left
-        JPanel leftPanel = new JPanel();
-        leftPanel.add(new JLabel("Tree View"));
-        leftPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-        leftPanel.setPreferredSize(new Dimension(300, getHeight())); // Set preferred width
-
-        // Top right panel
-        JPanel topRightPanel = new JPanel();
-        topRightPanel.add(new JLabel("Control"));
-        topRightPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-
-        // Bottom right panel
-        JPanel bottomRightPanel = new JPanel();
-        bottomRightPanel.setLayout(new BoxLayout(bottomRightPanel, BoxLayout.Y_AXIS));
-        bottomRightPanel.add(new JLabel("Stats Center"));
-        bottomRightPanel.setBorder(BorderFactory.createLineBorder(Color.black));
-        Button userTotal = new Button("Show User Total");
-        Button groupTotal = new Button("Show Group Total");
-        Button messTotal = new Button("Show Messages Total");
-        Button positiveTotal = new Button("Show Positive Total");
-        bottomRightPanel.add(userTotal);
-        bottomRightPanel.add(groupTotal);
-        bottomRightPanel.add(messTotal);
-        bottomRightPanel.add(positiveTotal);
-
-        // Right panel containing the top and bottom panels
-        JPanel rightPanel = new JPanel();
-        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
-        rightPanel.add(topRightPanel);
-        rightPanel.add(bottomRightPanel);
-
-        // Set the resize behavior
-        topRightPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
-        bottomRightPanel.setMaximumSize(new Dimension(Integer.MAX_VALUE, Integer.MAX_VALUE));
-        topRightPanel.setPreferredSize(new Dimension(getWidth() - leftPanel.getPreferredSize().width, getHeight() / 2));
-        bottomRightPanel.setPreferredSize(new Dimension(getWidth() - leftPanel.getPreferredSize().width, getHeight() / 2));
+        // Initialize and configure panels
+        JPanel leftPanel = createLeftPanel();
+        JPanel rightPanel = createRightPanel();
 
         // Add panels to the frame
         add(leftPanel, BorderLayout.WEST);
         add(rightPanel, BorderLayout.CENTER);
 
-        // set the size of the window
-        setSize(1000, 700);
-        // set the location of the window
-        setLocationRelativeTo(null);
-        // make the window visible
+
+        // Display the window
         setVisible(true);
     }
 
+    private JPanel createLeftPanel() {
+        // Left panel for tree view or similar navigation
+        JPanel leftPanel = new JPanel();
+        leftPanel.add(new JLabel("Tree View"));
+        leftPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        leftPanel.setPreferredSize(new Dimension(300, 700));
+        return leftPanel;
+    }
+
+    private JPanel createRightPanel() {
+        // Right panel to contain user control and statistics panels
+        JPanel rightPanel = new JPanel();
+        rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
+        rightPanel.setPreferredSize(new Dimension(700, 700));
+
+
+        // Add subpanels to right panel
+        rightPanel.add(createUserControlPanel());
+        rightPanel.add(createStatisticsPanel());
+
+        return rightPanel;
+    }
+
+    private JPanel createUserControlPanel() {
+        // Top right panel for user control inputs and actions
+        JPanel userControlPanel = new JPanel();
+        userControlPanel.setLayout(new BoxLayout(userControlPanel, BoxLayout.Y_AXIS));
+        userControlPanel.setMaximumSize(new Dimension(700, 550));
+        userControlPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+
+
+
+        JLabel userControlLabel = new JLabel("User Control");
+        userControlLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+
+        // Components for user operations
+        userControlPanel.add(userControlLabel);
+        userControlPanel.add(createUserInputPanel());
+        userControlPanel.add(Box.createRigidArea(new Dimension(0, 10)));
+
+        // Button to open a separate user panel
+        JButton openUserPanelButton = new JButton("Open User Panel");
+        openUserPanelButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        userControlPanel.add(openUserPanelButton);
+
+        return userControlPanel;
+    }
+
+    private JPanel createUserInputPanel() {
+        // Panel for user and group ID input with GridLayout
+        JPanel userInputPanel = new JPanel(new GridLayout(2, 2, 5, 5)); // 2x2 grid with 5px hgap and vgap
+        userInputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
+        userInputPanel.setMaximumSize(new Dimension(700,100));
+
+
+
+        // User and group ID input fields
+        JTextField userIDTextField = new JTextField("User ID");
+
+        JTextField groupIdTextField = new JTextField("Group ID");
+
+        // Buttons for adding users and groups
+        JButton addUserButton = new JButton("Add User");
+        JButton addGroupButton = new JButton("Add Group");
+
+        // Add components to the panel
+        userInputPanel.add(userIDTextField);
+        userInputPanel.add(addUserButton);
+        userInputPanel.add(groupIdTextField);
+        userInputPanel.add(addGroupButton);
+
+        return userInputPanel;
+    }
+
+
+
+    private JPanel createStatisticsPanel() {
+        // Bottom right panel for displaying statistics
+        JPanel statisticsPanel = new JPanel();
+        statisticsPanel.setLayout(new BoxLayout(statisticsPanel, BoxLayout.Y_AXIS));
+        statisticsPanel.setMaximumSize(new Dimension(700, 250));
+        statisticsPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+
+        // Grid panel for statistic buttons
+        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+
+        // Buttons for showing various statistics
+        JButton showUserTotalButton = new JButton("Show User Total");
+        JButton showGroupTotalButton = new JButton("Show Group Total");
+        JButton showMessagesTotalButton = new JButton("Show Messages Total");
+        JButton showPositiveTotalButton = new JButton("Show Positive Total");
+
+        // Add buttons to grid panel
+        buttonPanel.add(showGroupTotalButton);
+        buttonPanel.add(showUserTotalButton);
+        buttonPanel.add(showMessagesTotalButton);
+        buttonPanel.add(showPositiveTotalButton);
+
+        // Add button panel to statistics panel
+        statisticsPanel.add(buttonPanel);
+
+        return statisticsPanel;
+    }
+
+    private void changeButtonColors(Container container, Color background, Color textColor) {
+        for (Component comp : container.getComponents()) {
+            if (comp instanceof JButton) {
+                JButton button = (JButton) comp;
+                button.setBackground(background);
+                button.setForeground(textColor); // Set text color
+                button.setOpaque(true);
+                button.setBorderPainted(false);
+            } else if (comp instanceof Container) {
+                changeButtonColors((Container) comp, background, textColor);
+            }
+        }
+    }
+    private void changeTextFieldColors(Container container, Color background, Color textColor) {
+        for (Component comp : container.getComponents()) {
+            if (comp instanceof JTextField) {
+                JTextField field = (JTextField) comp;
+                field.setBackground(background);
+                field.setForeground(textColor); // Set text color
+                field.setOpaque(true);
+                field.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+            } else if (comp instanceof Container) {
+                changeTextFieldColors((Container) comp, background, textColor);
+            }
+        }
+    }
+    private void changeLabelColors(Container container, Color textColor) {
+        for (Component comp : container.getComponents()) {
+            if (comp instanceof JLabel) {
+                JLabel label = (JLabel) comp;
+                label.setForeground(textColor); // Set text color
+            } else if (comp instanceof Container) {
+                changeLabelColors((Container) comp, textColor);
+            }
+        }
+    }
+    private void changePanelBackground(Container container, Color backgroundColor) {
+        for (Component comp : container.getComponents()) {
+            if (comp instanceof JPanel) {
+                JPanel panel = (JPanel) comp;
+                panel.setBackground(backgroundColor);
+                panel.setOpaque(true); // Ensure the panel is opaque
+                panel.repaint(); // Repaint to show the new color
+            }
+            // The check is made here to include the case when comp is a JPanel
+            // as JPanel itself is a Container, and could contain other panels.
+            if (comp instanceof Container) {
+                changePanelBackground((Container) comp, backgroundColor);
+            }
+        }
+    }
+
+
 }
+
