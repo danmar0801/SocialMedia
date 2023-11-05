@@ -2,10 +2,10 @@ import javax.swing.*;
 import java.awt.*;
 
 public class AdminWindow extends JFrame {
-    private String panelColor = "#f0f1f5";
-    private String buttonColor = "#637f97";
-    private String fieldColor = "#a6c0c5";
-    private String labelColor = "#040604";
+    private String panelColor = "#222828";
+    private String buttonColor = "#419b60";
+    private String fieldColor = "#6cc18a";
+    private String labelColor = "#fcfdfc";
 
 
     public AdminWindow() {
@@ -42,7 +42,8 @@ public class AdminWindow extends JFrame {
         // Left panel for tree view or similar navigation
         JPanel leftPanel = new JPanel();
         leftPanel.add(new JLabel("Tree View"));
-        leftPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        leftPanel.setBorder(BorderFactory.createLineBorder(Color.black,1,true));
+
         leftPanel.setPreferredSize(new Dimension(300, 700));
         return leftPanel;
     }
@@ -52,6 +53,7 @@ public class AdminWindow extends JFrame {
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.setPreferredSize(new Dimension(700, 700));
+
 
 
         // Add subpanels to right panel
@@ -65,8 +67,9 @@ public class AdminWindow extends JFrame {
         // Top right panel for user control inputs and actions
         JPanel userControlPanel = new JPanel();
         userControlPanel.setLayout(new BoxLayout(userControlPanel, BoxLayout.Y_AXIS));
-        userControlPanel.setMaximumSize(new Dimension(700, 550));
+        userControlPanel.setMaximumSize(new Dimension(700, 600));
         userControlPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        userControlPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
 
 
@@ -94,8 +97,6 @@ public class AdminWindow extends JFrame {
         userInputPanel.setBorder(BorderFactory.createEmptyBorder(10, 10, 10, 10));
         userInputPanel.setMaximumSize(new Dimension(700,100));
 
-
-
         // User and group ID input fields
         JTextField userIDTextField = new JTextField("User ID");
 
@@ -120,14 +121,16 @@ public class AdminWindow extends JFrame {
         // Bottom right panel for displaying statistics
         JPanel statisticsPanel = new JPanel();
         statisticsPanel.setLayout(new BoxLayout(statisticsPanel, BoxLayout.Y_AXIS));
-        statisticsPanel.setMaximumSize(new Dimension(700, 250));
+        statisticsPanel.setMaximumSize(new Dimension(700, 100));
         statisticsPanel.setBorder(BorderFactory.createLineBorder(Color.black));
+        statisticsPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
         // Grid panel for statistic buttons
         JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10));
 
         // Buttons for showing various statistics
         JButton showUserTotalButton = new JButton("Show User Total");
+
         JButton showGroupTotalButton = new JButton("Show Group Total");
         JButton showMessagesTotalButton = new JButton("Show Messages Total");
         JButton showPositiveTotalButton = new JButton("Show Positive Total");
