@@ -3,6 +3,7 @@ import java.util.List;
 import java.util.Map;
 
 public class UserManager {
+    Groups root;
     private static UserManager instance = null;
     Map<String, User> userMap = new HashMap<>();
 
@@ -32,7 +33,14 @@ public class UserManager {
         }
         return list;
     }
+    public Groups addRootGroup(Groups group){
+        root = group;
 
+        return root;
+    }
+    public Groups getRootGroup(){
 
+        return root;
+    }
 
 }

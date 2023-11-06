@@ -74,7 +74,7 @@ public class UserWindow extends JFrame {
         userInputPanel.setMaximumSize(new Dimension(800, 50));
 
         // User ID text field setup
-        JTextField userIdTextField = new JTextField("cryptoking200");
+        JTextField userIdTextField = new JTextField("User ID");
 
         // Follow user button setup
         JButton followUserButton = new JButton("Follow User");

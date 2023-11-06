@@ -11,7 +11,6 @@ public class Main {
     * */
     public static void main(String[] args) {
         UserManager userManager = UserManager.getInstance();
-        AdminWindow frame = AdminWindow.getInstance();
         User user1 = new User("Danny-111");
 
         User user2 = new User("fluffy23");
@@ -22,9 +21,33 @@ public class Main {
         user1.addFollowing(user2);
         user1.addFollowing(user3);
 
+        user2.addFollowing(user3);
+        user2.addFollowing(user4);
+
+        user3.addFollowing(user1);
+        user3.addFollowing(user2);
+
+        user4.addFollowing(user1);
+        user4.addFollowing(user3);
+
+        // create the groups
+        Groups root = new Groups("Root");
+        Groups csMajor = new Groups("CS majors");
+        Groups Athletes = new Groups("Athletes");
+
+        csMajor.add(user1);
+        csMajor.add(user2);
+        Athletes.add(user3);
+
+        root.add(csMajor);
+        root.add(Athletes);
+        root.add(user4);
+
+        userManager.addRootGroup(root);
 
 
 
+        AdminWindow frame = AdminWindow.getInstance();
 
         //UserWindow frame2 = new UserWindow(user1);
 

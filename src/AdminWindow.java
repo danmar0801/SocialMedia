@@ -57,31 +57,10 @@ public class AdminWindow extends JFrame {
         leftPanel.add(new JLabel("Tree View"));
         leftPanel.setBorder(BorderFactory.createLineBorder(Color.black,1,true));
         leftPanel.setPreferredSize(new Dimension(300, 700));
-        // build users and groups
-        // init the users
-        User user1 = new User("dany0801");
-        User user2 = new User("fluffy23");
-        User user3 = new User("ace12");
-        User user4 = new User("cryptoKing200");
 
-        user1.addFollowing(user2);
-        user1.addFollowing(user3);
-
-        // create the groups
-        Groups root = new Groups("Root");
-        Groups csMajor = new Groups("CS majors");
-        Groups Athletes = new Groups("Athletes");
-
-        csMajor.add(user1);
-        csMajor.add(user2);
-        Athletes.add(user3);
-
-        root.add(csMajor);
-        root.add(Athletes);
-        root.add(user4);
         // Build the tree model from the rootComponent
-        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(root.getId());
-        buildTree(root, rootNode);
+        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(userManager.getRootGroup().getId());
+        buildTree(userManager.getRootGroup(), rootNode);
 
 
 
