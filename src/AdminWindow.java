@@ -3,8 +3,12 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 
 public class AdminWindow extends JFrame {
+    UserManager userManager = UserManager.getInstance();
     // private value for singleton pattern
     private static AdminWindow instance = null;
+
+    private Object selectedObject;
+
 
     private AdminWindow() {
         initializeComponents();
@@ -60,6 +64,9 @@ public class AdminWindow extends JFrame {
         User user3 = new User("ace12");
         User user4 = new User("cryptoKing200");
 
+        user1.addFollowing(user2);
+        user1.addFollowing(user3);
+
         // create the groups
         Groups root = new Groups("Root");
         Groups csMajor = new Groups("CS majors");
@@ -77,10 +84,18 @@ public class AdminWindow extends JFrame {
         buildTree(root, rootNode);
 
 
+
         // Create the JTree and add it to a JScrollPane
         JTree tree = new JTree(rootNode);
+        tree.addTreeSelectionListener(e -> {
+            DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+            if (selectedNode != null) {
+                selectedObject = selectedNode.getUserObject();  // Store the selected user or group
+            }
+        });
         JScrollPane treeScrollPane = new JScrollPane(tree);
         leftPanel.add(treeScrollPane, BorderLayout.CENTER);
+
         return leftPanel;
     }
 
@@ -116,6 +131,23 @@ public class AdminWindow extends JFrame {
         // Button to open a separate user panel
         JButton openUserPanelButton = new JButton("Open User Panel");
         openUserPanelButton.setAlignmentX(Component.CENTER_ALIGNMENT);
+
+        openUserPanelButton.addActionListener(e -> {
+            // Debugging output
+            System.out.println("Selected Object: " + selectedObject);
+            User users = userManager.getUserRef((String) selectedObject);
+
+            if (users instanceof User) {
+                UserWindow frame2 = new UserWindow(users);  // Open the window with the selected User
+            } else {
+                // Provide more detailed error information
+                if (selectedObject == null) {
+                    JOptionPane.showMessageDialog(this, "No item is currently selected.", "Error", JOptionPane.ERROR_MESSAGE);
+                } else {
+                    JOptionPane.showMessageDialog(this, "The selected item is not a user.", "Error", JOptionPane.ERROR_MESSAGE);
+                }
+            }
+        });
 
         userControlPanel.add(openUserPanelButton);
 
@@ -171,7 +203,6 @@ public class AdminWindow extends JFrame {
 
         // Add button panel to statistics panel
         statisticsPanel.add(buttonPanel);
-
         return statisticsPanel;
     }
 
@@ -187,6 +218,5 @@ public class AdminWindow extends JFrame {
         // Users are leaves and have no children, so no action needed for them
         // If you want to handle Users differently, add an else block here
     }
-
 }
 
