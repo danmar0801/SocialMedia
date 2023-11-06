@@ -4,7 +4,8 @@ import java.awt.*;
 
 public class Main {
     public static void main(String[] args) {
-        AdminWindow frame = new AdminWindow();
+        AdminWindow frame = AdminWindow.getInstance();
+        
 
     }
 }

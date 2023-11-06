@@ -1,20 +1,36 @@
 import javax.swing.*;
+import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 
 public class AdminWindow extends JFrame {
-    private String panelColor = "#222828";
-    private String buttonColor = "#2954a9";
-    private String fieldColor = "#4974b2";
-    private String labelColor = "#fcfdfc";
+    // Define color constants for different UI elements
+    private static final Color PANEL_COLOR = Color.decode("#222828");
+    private static final Color BUTTON_COLOR = Color.decode("#2954a9");
+    private static final Color FIELD_COLOR = Color.decode("#4974b2");
+    private static final Color LABEL_COLOR = Color.decode("#fcfdfc");
+
+    // private value for singleton pattern
+    private static AdminWindow instance = null;
 
 
-    public AdminWindow() {
+    private AdminWindow() {
         initializeComponents();
+        applyColorScheme();
+    }
 
-        changeButtonColors(this.getContentPane(), Color.decode(buttonColor), Color.WHITE);
-        changePanelBackground(this.getContentPane(), Color.decode(panelColor));
-        changeLabelColors(this.getContentPane(), Color.decode(labelColor));
-        changeTextFieldColors(this.getContentPane(), Color.decode(fieldColor), Color.WHITE);
+    public static AdminWindow getInstance(){
+        if(instance == null){
+            instance = new AdminWindow();
+        }
+        return instance;
+    }
+
+    private void applyColorScheme() {
+        Container contentPane = getContentPane();
+        ColorRendering.changeButtonColors(contentPane);
+        ColorRendering.changePanelBackground(contentPane);
+        ColorRendering.changeLabelColors(contentPane);
+        ColorRendering.changeTextFieldColors(contentPane);
     }
 
     private void initializeComponents() {
@@ -33,18 +49,43 @@ public class AdminWindow extends JFrame {
         add(leftPanel, BorderLayout.WEST);
         add(rightPanel, BorderLayout.CENTER);
 
-
         // Display the window
         setVisible(true);
     }
 
     private JPanel createLeftPanel() {
-        // Left panel for tree view or similar navigation
+        // Left panel for tree view
         JPanel leftPanel = new JPanel();
+        leftPanel.setLayout(new BoxLayout(leftPanel, BoxLayout.Y_AXIS));
         leftPanel.add(new JLabel("Tree View"));
         leftPanel.setBorder(BorderFactory.createLineBorder(Color.black,1,true));
-
         leftPanel.setPreferredSize(new Dimension(300, 700));
+
+        // Create the tree nodes and populate the tree
+        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Root");
+        DefaultMutableTreeNode usersNode = new DefaultMutableTreeNode("Gamers");
+        DefaultMutableTreeNode groupsNode = new DefaultMutableTreeNode("Retards");
+        DefaultMutableTreeNode settingsNode = new DefaultMutableTreeNode("dumbass's");
+
+        // Add child nodes to the root node
+        rootNode.add(usersNode);
+        usersNode.add(new DefaultMutableTreeNode("Some"));
+
+        usersNode.add(new DefaultMutableTreeNode("dudes"));
+        usersNode.add(new DefaultMutableTreeNode("dick"));
+        rootNode.add(groupsNode);
+        groupsNode.add(new DefaultMutableTreeNode("Some"));
+        groupsNode.add(new DefaultMutableTreeNode("dudes"));
+        groupsNode.add(new DefaultMutableTreeNode("dick"));
+        rootNode.add(settingsNode);
+        settingsNode.add(new DefaultMutableTreeNode("Some"));
+        settingsNode.add(new DefaultMutableTreeNode("dudes"));
+        settingsNode.add(new DefaultMutableTreeNode("dick"));
+
+        // Create the JTree and add it to a JScrollPane
+        JTree tree = new JTree(rootNode);
+        JScrollPane treeScrollPane = new JScrollPane(tree);
+        leftPanel.add(treeScrollPane, BorderLayout.CENTER);
         return leftPanel;
     }
 
@@ -53,8 +94,6 @@ public class AdminWindow extends JFrame {
         JPanel rightPanel = new JPanel();
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.setPreferredSize(new Dimension(700, 700));
-
-
 
         // Add subpanels to right panel
         rightPanel.add(createUserControlPanel());
@@ -71,11 +110,8 @@ public class AdminWindow extends JFrame {
         userControlPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         userControlPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
-
-
         JLabel userControlLabel = new JLabel("User Control");
         userControlLabel.setAlignmentX(Component.CENTER_ALIGNMENT);
-
 
         // Components for user operations
         userControlPanel.add(userControlLabel);
@@ -115,8 +151,6 @@ public class AdminWindow extends JFrame {
         return userInputPanel;
     }
 
-
-
     private JPanel createStatisticsPanel() {
         // Bottom right panel for displaying statistics
         JPanel statisticsPanel = new JPanel();
@@ -130,7 +164,6 @@ public class AdminWindow extends JFrame {
 
         // Buttons for showing various statistics
         JButton showUserTotalButton = new JButton("Show User Total");
-
         JButton showGroupTotalButton = new JButton("Show Group Total");
         JButton showMessagesTotalButton = new JButton("Show Messages Total");
         JButton showPositiveTotalButton = new JButton("Show Positive Total");
@@ -146,59 +179,5 @@ public class AdminWindow extends JFrame {
 
         return statisticsPanel;
     }
-
-    private void changeButtonColors(Container container, Color background, Color textColor) {
-        for (Component comp : container.getComponents()) {
-            if (comp instanceof JButton) {
-                JButton button = (JButton) comp;
-                button.setBackground(background);
-                button.setForeground(textColor); // Set text color
-                button.setOpaque(true);
-                button.setBorderPainted(false);
-            } else if (comp instanceof Container) {
-                changeButtonColors((Container) comp, background, textColor);
-            }
-        }
-    }
-    private void changeTextFieldColors(Container container, Color background, Color textColor) {
-        for (Component comp : container.getComponents()) {
-            if (comp instanceof JTextField) {
-                JTextField field = (JTextField) comp;
-                field.setBackground(background);
-                field.setForeground(textColor); // Set text color
-                field.setOpaque(true);
-                field.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
-            } else if (comp instanceof Container) {
-                changeTextFieldColors((Container) comp, background, textColor);
-            }
-        }
-    }
-    private void changeLabelColors(Container container, Color textColor) {
-        for (Component comp : container.getComponents()) {
-            if (comp instanceof JLabel) {
-                JLabel label = (JLabel) comp;
-                label.setForeground(textColor); // Set text color
-            } else if (comp instanceof Container) {
-                changeLabelColors((Container) comp, textColor);
-            }
-        }
-    }
-    private void changePanelBackground(Container container, Color backgroundColor) {
-        for (Component comp : container.getComponents()) {
-            if (comp instanceof JPanel) {
-                JPanel panel = (JPanel) comp;
-                panel.setBackground(backgroundColor);
-                panel.setOpaque(true); // Ensure the panel is opaque
-                panel.repaint(); // Repaint to show the new color
-            }
-            // The check is made here to include the case when comp is a JPanel
-            // as JPanel itself is a Container, and could contain other panels.
-            if (comp instanceof Container) {
-                changePanelBackground((Container) comp, backgroundColor);
-            }
-        }
-    }
-
-
 }
 
