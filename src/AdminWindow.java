@@ -3,15 +3,8 @@ import javax.swing.tree.DefaultMutableTreeNode;
 import java.awt.*;
 
 public class AdminWindow extends JFrame {
-    // Define color constants for different UI elements
-    private static final Color PANEL_COLOR = Color.decode("#222828");
-    private static final Color BUTTON_COLOR = Color.decode("#2954a9");
-    private static final Color FIELD_COLOR = Color.decode("#4974b2");
-    private static final Color LABEL_COLOR = Color.decode("#fcfdfc");
-
     // private value for singleton pattern
     private static AdminWindow instance = null;
-
 
     private AdminWindow() {
         initializeComponents();
@@ -60,27 +53,29 @@ public class AdminWindow extends JFrame {
         leftPanel.add(new JLabel("Tree View"));
         leftPanel.setBorder(BorderFactory.createLineBorder(Color.black,1,true));
         leftPanel.setPreferredSize(new Dimension(300, 700));
+        // build users and groups
+        // init the users
+        User user1 = new User("dany0801");
+        User user2 = new User("fluffy23");
+        User user3 = new User("ace12");
+        User user4 = new User("cryptoKing200");
 
-        // Create the tree nodes and populate the tree
-        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode("Root");
-        DefaultMutableTreeNode usersNode = new DefaultMutableTreeNode("Gamers");
-        DefaultMutableTreeNode groupsNode = new DefaultMutableTreeNode("Retards");
-        DefaultMutableTreeNode settingsNode = new DefaultMutableTreeNode("dumbass's");
+        // create the groups
+        Groups root = new Groups("Root");
+        Groups csMajor = new Groups("CS majors");
+        Groups Athletes = new Groups("Athletes");
 
-        // Add child nodes to the root node
-        rootNode.add(usersNode);
-        usersNode.add(new DefaultMutableTreeNode("Some"));
+        csMajor.add(user1);
+        csMajor.add(user2);
+        Athletes.add(user3);
 
-        usersNode.add(new DefaultMutableTreeNode("dudes"));
-        usersNode.add(new DefaultMutableTreeNode("dick"));
-        rootNode.add(groupsNode);
-        groupsNode.add(new DefaultMutableTreeNode("Some"));
-        groupsNode.add(new DefaultMutableTreeNode("dudes"));
-        groupsNode.add(new DefaultMutableTreeNode("dick"));
-        rootNode.add(settingsNode);
-        settingsNode.add(new DefaultMutableTreeNode("Some"));
-        settingsNode.add(new DefaultMutableTreeNode("dudes"));
-        settingsNode.add(new DefaultMutableTreeNode("dick"));
+        root.add(csMajor);
+        root.add(Athletes);
+        root.add(user4);
+        // Build the tree model from the rootComponent
+        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(root.getId());
+        buildTree(root, rootNode);
+
 
         // Create the JTree and add it to a JScrollPane
         JTree tree = new JTree(rootNode);
@@ -179,5 +174,19 @@ public class AdminWindow extends JFrame {
 
         return statisticsPanel;
     }
+
+    private void buildTree(UserGroupComponent component, DefaultMutableTreeNode node) {
+        if (component instanceof Groups) {
+            Groups group = (Groups) component;
+            for (UserGroupComponent childComponent : group.getComponents()) {
+                DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(childComponent.getId());
+                node.add(childNode);
+                buildTree(childComponent, childNode);
+            }
+        }
+        // Users are leaves and have no children, so no action needed for them
+        // If you want to handle Users differently, add an else block here
+    }
+
 }
 

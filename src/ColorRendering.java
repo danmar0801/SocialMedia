@@ -1,6 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
 
+
+/* the objective of this class is minimizing the code need to style the different components across the admin window and user window
+* this class will change the colors and borders of buttons, text fields, panels,  and labels.
+* other styling elements will be implemented in their respective class */
+
 public class ColorRendering {
 
     // Define color constants for different UI elements
