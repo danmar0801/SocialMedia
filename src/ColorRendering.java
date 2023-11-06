@@ -13,6 +13,7 @@ public class ColorRendering {
     private static final Color BUTTON_COLOR = Color.decode("#2954a9");
     private static final Color FIELD_COLOR = Color.decode("#4974b2");
     private static final Color LABEL_COLOR = Color.decode("#fcfdfc");
+    private static final Color LIST_COLOR = Color.decode("#607575");
     private static final Color TEXT_COLOR = Color.WHITE;
     public static void changeButtonColors(Container container) {
         for (Component comp : container.getComponents()) {
@@ -65,6 +66,23 @@ public class ColorRendering {
             // as JPanel itself is a Container, and could contain other panels.
             if (comp instanceof Container) {
                 changePanelBackground((Container) comp);
+            }
+        }
+    }
+    public static void changeListBackground(Container container) {
+        for (Component comp : container.getComponents()) {
+            if (comp instanceof JList) {
+                JList list = (JList) comp;
+                list.setBackground(LIST_COLOR);
+                list.setForeground(TEXT_COLOR);
+                list.setOpaque(true); // Ensure the panel is opaque
+                list.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
+                list.repaint(); // Repaint to show the new color
+            }
+            // The check is made here to include the case when comp is a JPanel
+            // as JPanel itself is a Container, and could contain other panels.
+            if (comp instanceof Container) {
+                changeListBackground((Container) comp);
             }
         }
     }

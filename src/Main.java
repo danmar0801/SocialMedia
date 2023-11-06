@@ -10,10 +10,23 @@ public class Main {
 
     * */
     public static void main(String[] args) {
+        UserManager userManager = UserManager.getInstance();
         AdminWindow frame = AdminWindow.getInstance();
-        // user 1
-        User user1 = new User("Dany");
-        user1.setId("Dany123");
+        User user1 = new User("Danny-111");
+
+        User user2 = new User("fluffy23");
+        User user3 = new User("ace12");
+        User user4 = new User("cryptoking200");
+
+
+        user1.addFollowing(user2);
+        user1.addFollowing(user3);
+
+
+
+
+
+        //UserWindow frame2 = new UserWindow(user1);
 
 
     }
