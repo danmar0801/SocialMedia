@@ -6,7 +6,7 @@ public class User  implements UserGroupComponent{
     private String userID;
     private List<User> following;
     private List<User> followers;
-    private String[] posts;
+    private List<String> posts;
 
     public User(String userID){
         this.userID = userID;
@@ -31,6 +31,10 @@ public class User  implements UserGroupComponent{
         return userID;
     }
 
+    public void setID(String ID) {
+        this.userID = ID;
+    }
+
     public List<User> getFollowing() {
         return following;
     }
@@ -43,10 +47,23 @@ public class User  implements UserGroupComponent{
         following.add(user);
     }
     // this method is for testing purposes
-    public void printFollowing() {
+    /*public void printFollowing() {
         for (User user : following) {
             System.out.println(user.getId());
         }
+    }*/
+
+    public List<String> getPosts() {
+        return posts;
     }
 
+    public void setPosts(List<String> posts) {
+        this.posts = posts;
+        userManager.setPostCount(userManager.getPostCount()+posts.size());
+    }
+
+    public void addPost(String post){
+        posts.add(post);
+        userManager.incPostCount();
+    }
 }

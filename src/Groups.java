@@ -36,4 +36,8 @@ public class Groups implements UserGroupComponent{
     public String getId() {
         return id;
     }
+
+    public void setID(String ID) {
+        this.id = ID;
+    }
 }

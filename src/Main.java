@@ -33,15 +33,17 @@ public class Main {
         // create the groups
         Groups root = new Groups("Root");
         Groups csMajor = new Groups("CS majors");
+        Groups Major = new Groups("majors");
         Groups Athletes = new Groups("Athletes");
 
         csMajor.add(user1);
         csMajor.add(user2);
         Athletes.add(user3);
-
+        Major.add(user4);
         root.add(csMajor);
+        root.add(Major);
         root.add(Athletes);
-        root.add(user4);
+
 
         //userManager.addRootGroup(root);
 

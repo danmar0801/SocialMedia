@@ -1,5 +1,7 @@
 import javax.swing.*;
 import javax.swing.tree.DefaultMutableTreeNode;
+import javax.swing.tree.DefaultTreeModel;
+import javax.swing.tree.TreePath;
 import java.awt.*;
 
 public class AdminWindow extends JFrame {
@@ -9,6 +11,10 @@ public class AdminWindow extends JFrame {
 
     // object to pass the selected user from the tree to the openwindow function
     private Object selectedObject;
+
+    private JTree tree;
+    private DefaultTreeModel treeModel;
+    private DefaultMutableTreeNode rootNode;
 
     private AdminWindow() {
         initializeComponents();
@@ -58,12 +64,15 @@ public class AdminWindow extends JFrame {
         leftPanel.setBorder(BorderFactory.createLineBorder(Color.black,1,true));
         leftPanel.setPreferredSize(new Dimension(300, 700));
 
+
+
+        rootNode = new DefaultMutableTreeNode(userManager.getRootGroup().getId());
+        treeModel = new DefaultTreeModel(rootNode);
         // Build the tree model from the rootComponent
-        DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(userManager.getRootGroup().getId());
         buildTree(userManager.getRootGroup(), rootNode);
 
         // Create the JTree and add it to a JScrollPane
-        JTree tree = new JTree(rootNode);
+        tree = new JTree(treeModel);
         tree.addTreeSelectionListener(e -> {
             DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
             if (selectedNode != null) {
@@ -110,20 +119,7 @@ public class AdminWindow extends JFrame {
         openUserPanelButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
         openUserPanelButton.addActionListener(e -> {
-            // Debugging output
-            System.out.println("Selected Object: " + selectedObject);
-            User users = userManager.getUserRef((String) selectedObject);
-
-            if (users instanceof User) {
-                UserWindow frame2 = new UserWindow(users);  // Open the window with the selected User
-            } else {
-                // Provide more detailed error information
-                if (selectedObject == null) {
-                    JOptionPane.showMessageDialog(this, "No item is currently selected.", "Error", JOptionPane.ERROR_MESSAGE);
-                } else {
-                    JOptionPane.showMessageDialog(this, "The selected item is not a user.", "Error", JOptionPane.ERROR_MESSAGE);
-                }
-            }
+            openUserPanel();
         });
 
         userControlPanel.add(openUserPanelButton);
@@ -145,6 +141,14 @@ public class AdminWindow extends JFrame {
         // Buttons for adding users and groups
         JButton addUserButton = new JButton("Add User");
         JButton addGroupButton = new JButton("Add Group");
+
+        // functions for buttons
+        addUserButton.addActionListener(e->{
+            addNewUser(userIDTextField.getText());
+        });
+        addGroupButton.addActionListener(e->{
+            addNewGroup(groupIdTextField.getText());
+        });
 
         // Add components to the panel
         userInputPanel.add(userIDTextField);
@@ -172,6 +176,27 @@ public class AdminWindow extends JFrame {
         JButton showMessagesTotalButton = new JButton("Show Messages Total");
         JButton showPositiveTotalButton = new JButton("Show Positive Total");
 
+        //functions for buttons
+        // total user count
+        showUserTotalButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(this, "The total user count is: " + userManager.getTotalUsers(),
+                    "User Count", JOptionPane.INFORMATION_MESSAGE);
+        });
+        // total group count
+        showGroupTotalButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(this, "The total group count is: " + userManager.getTotalGroups(),
+                    "Group Count", JOptionPane.INFORMATION_MESSAGE);
+        });
+        //total message count
+        showMessagesTotalButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(this, "The total message count is: " + userManager.getPostCount(),
+                    "Message Count", JOptionPane.INFORMATION_MESSAGE);
+        });
+        // total positivity
+        showPositiveTotalButton.addActionListener(e -> {
+            JOptionPane.showMessageDialog(this, "The positivity score is: " + userManager.getPositivityScore(),
+                    "Positivity Score", JOptionPane.INFORMATION_MESSAGE);
+        });
         // Add buttons to grid panel
         buttonPanel.add(showGroupTotalButton);
         buttonPanel.add(showUserTotalButton);
@@ -192,6 +217,68 @@ public class AdminWindow extends JFrame {
                 buildTree(childComponent, childNode);
             }
         }
+    }
+
+    public void openUserPanel(){
+        // Debugging output
+        System.out.println("Selected Object: " + selectedObject);
+        User users = userManager.getUserRef((String) selectedObject);
+
+        if (users instanceof User) {
+            UserWindow frame2 = new UserWindow(users);  // Open the window with the selected User
+        } else {
+            // Provide more detailed error information
+            if (selectedObject == null) {
+                JOptionPane.showMessageDialog(this, "No item is currently selected.", "Error", JOptionPane.ERROR_MESSAGE);
+            } else {
+                JOptionPane.showMessageDialog(this, "The selected item is not a user.", "Error", JOptionPane.ERROR_MESSAGE);
+            }
+        }
+
+    }
+
+    public void addNewUser(String ID){
+        // Validate the ID (pseudo-code, implement this according to your validation rules)
+        if (ID == null || ID.isEmpty()) {
+            // Show some error message
+            JOptionPane.showMessageDialog(null, "User ID cannot be empty.");
+            return;
+        }
+        if (userManager.isUserExist(ID)) {
+            // Show some error message
+            JOptionPane.showMessageDialog(null, "User ID already exists.");
+            return;
+        }
+        User newUser = new User(ID);
+        userManager.getRootGroup().add(newUser);
+
+        // Add the new user to the rootNode
+        DefaultMutableTreeNode userNode = new DefaultMutableTreeNode(newUser.getId());
+        rootNode.add(userNode);
+
+        // Notify the tree model
+        treeModel.reload(rootNode);
+
+        // Ensure the new user node is visible
+        tree.scrollPathToVisible(new TreePath(userNode.getPath()));
+    }
+    public void addNewGroup(String ID){
+        // Validate the ID (pseudo-code, implement this according to your validation rules)
+        if (ID == null || ID.isEmpty()) {
+            // Show some error message
+            JOptionPane.showMessageDialog(null, "User ID cannot be empty.");
+            return;
+        }
+        Groups newGroup = new Groups(ID);
+        userManager.getRootGroup().add(newGroup);
+        // Add the new user to the rootNode
+        DefaultMutableTreeNode GroupNode = new DefaultMutableTreeNode(newGroup.getId());
+        rootNode.add(GroupNode);
+        // Notify the tree model
+        treeModel.reload(rootNode);
+
+        // Ensure the new user node is visible
+        tree.scrollPathToVisible(new TreePath(GroupNode.getPath()));
     }
 }
 
