@@ -4,7 +4,6 @@ import java.util.List;
 public class User  implements UserGroupComponent{
     UserManager userManager = UserManager.getInstance();
     private String userID;
-    private String parentGroup;
     private List<User> following;
     private List<User> followers;
     private String[] posts;
@@ -30,10 +29,6 @@ public class User  implements UserGroupComponent{
 
     public String getId() {
         return userID;
-    }
-
-    public void setId(String userID) {
-        this.userID = userID;
     }
 
     public List<User> getFollowing() {

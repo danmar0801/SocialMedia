@@ -3,12 +3,14 @@ import java.util.Collections;
 import java.util.List;
 
 public class Groups implements UserGroupComponent{
+
+    UserManager userManager = UserManager.getInstance();
     private List<UserGroupComponent> components = new ArrayList<>();
     private String id;
 
     public Groups(String id){
         this.id = id;
-
+        userManager.addGroup(this);
     }
 
     public List<UserGroupComponent> getComponents() {
@@ -23,6 +25,7 @@ public class Groups implements UserGroupComponent{
 
     public void remove(UserGroupComponent component) {
         // this function is in beta so doesn't work properly yet
+        // no function from the UI
         components.remove(component);
     }
 
@@ -32,8 +35,5 @@ public class Groups implements UserGroupComponent{
 
     public String getId() {
         return id;
-    }
-    public void setId(String userID) {
-        this.id = id;
     }
 }

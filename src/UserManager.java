@@ -1,11 +1,15 @@
+import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
+
+
 
 public class UserManager {
     Groups root;
     private static UserManager instance = null;
     Map<String, User> userMap = new HashMap<>();
+    List<Groups> groupsList = new ArrayList<>();
 
     private UserManager() {
 
@@ -35,6 +39,14 @@ public class UserManager {
     }
     public Groups addRootGroup(Groups group){
         root = group;
+
+        return root;
+    }
+    public Groups addGroup(Groups group){
+        if (group.getId() == "Root"){
+            addRootGroup(group);
+        }
+        groupsList.add(group);
 
         return root;
     }

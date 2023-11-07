@@ -43,7 +43,7 @@ public class Main {
         root.add(Athletes);
         root.add(user4);
 
-        userManager.addRootGroup(root);
+        //userManager.addRootGroup(root);
 
 
 

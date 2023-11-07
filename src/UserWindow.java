@@ -5,20 +5,10 @@ import javax.swing.JList;
 import javax.swing.JScrollPane;
 
 public class UserWindow extends JFrame {
-    JFrame frame = this;
     UserManager userManager = UserManager.getInstance();
 
     private User user;
 
-    // things I need from the user
-    /*
-    * User ID
-    * List of followers
-    * posts from people that are followed*/
-
-    //things I need to be able to update are
-    /*
-    * message posted by this user*/
     public UserWindow(User user) {
         this.user = user;
         initializeComponents();
@@ -105,8 +95,6 @@ public class UserWindow extends JFrame {
 
         return topPanel;
     }
-
-
 
     private JPanel createBottomPanel(){
         // Data for the list

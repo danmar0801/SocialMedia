@@ -7,8 +7,8 @@ public class AdminWindow extends JFrame {
     // private value for singleton pattern
     private static AdminWindow instance = null;
 
+    // object to pass the selected user from the tree to the openwindow function
     private Object selectedObject;
-
 
     private AdminWindow() {
         initializeComponents();
@@ -62,8 +62,6 @@ public class AdminWindow extends JFrame {
         DefaultMutableTreeNode rootNode = new DefaultMutableTreeNode(userManager.getRootGroup().getId());
         buildTree(userManager.getRootGroup(), rootNode);
 
-
-
         // Create the JTree and add it to a JScrollPane
         JTree tree = new JTree(rootNode);
         tree.addTreeSelectionListener(e -> {
@@ -84,7 +82,7 @@ public class AdminWindow extends JFrame {
         rightPanel.setLayout(new BoxLayout(rightPanel, BoxLayout.Y_AXIS));
         rightPanel.setPreferredSize(new Dimension(700, 700));
 
-        // Add subpanels to right panel
+        // Add sub-panels to right panel
         rightPanel.add(createUserControlPanel());
         rightPanel.add(createStatisticsPanel());
 
@@ -194,8 +192,6 @@ public class AdminWindow extends JFrame {
                 buildTree(childComponent, childNode);
             }
         }
-        // Users are leaves and have no children, so no action needed for them
-        // If you want to handle Users differently, add an else block here
     }
 }
 
