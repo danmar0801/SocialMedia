@@ -9,6 +9,9 @@ public class UserWindow extends JFrame {
 
     private User user;
 
+    //
+    JList<String> followersList;
+
     public UserWindow(User user) {
         this.user = user;
         initializeComponents();
@@ -75,17 +78,13 @@ public class UserWindow extends JFrame {
         userInputPanel.add(followUserButton);
 
         // List view for followers setup
-        JList<String> followersList = new JList<>(dataList);
+        followersList = new JList<>(dataList);
         JScrollPane scrollPane = new JScrollPane(followersList);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
         followUserButton.addActionListener(e -> {
             String input = userIdTextField.getText();
-            user.addFollowing(userManager.getUserRef(input));
-            // Get the updated following array
-            String[] newDataList = userManager.getUserFollowing(user);
-            // Set the new data list as the model for the JList
-            followersList.setListData(newDataList);
+            followNewUser(input);
         });
 
         // Adding components to the top panel
@@ -122,8 +121,8 @@ public class UserWindow extends JFrame {
         userInputPanel.add(postMessButton);
 
         // List view for followers setup
-        JList<String> followersList = new JList<>(dataList);
-        JScrollPane scrollPane = new JScrollPane(followersList);
+        JList<String> followersList2 = new JList<>(dataList);
+        JScrollPane scrollPane = new JScrollPane(followersList2);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
 
         // Adding components to the top panel
@@ -132,5 +131,23 @@ public class UserWindow extends JFrame {
         bottomPanel.add(scrollPane);
 
         return bottomPanel;
+    }
+
+    private void followNewUser(String input){
+        if (input == null || input.isEmpty()) {
+            // Show some error message
+            JOptionPane.showMessageDialog(null, "User ID cannot be empty.");
+            return;
+        }
+
+        if (userManager.isUserExist(input) == false){
+            JOptionPane.showMessageDialog(null, "User ID doesn't exist");
+            return;
+        }
+        user.addFollowing(userManager.getUserRef(input));
+        // Get the updated following array
+        String[] newDataList = userManager.getUserFollowing(user);
+        // Set the new data list as the model for the JList
+        followersList.setListData(newDataList);
     }
 }

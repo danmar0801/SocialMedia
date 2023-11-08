@@ -12,6 +12,8 @@ public class AdminWindow extends JFrame {
     // object to pass the selected user from the tree to the openwindow function
     private Object selectedObject;
 
+
+    // global variables for the JTree to be able to update the tree when a new use/group is added
     private JTree tree;
     private DefaultTreeModel treeModel;
     private DefaultMutableTreeNode rootNode;
