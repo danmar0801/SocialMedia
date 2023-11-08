@@ -7,7 +7,7 @@ import javax.swing.JScrollPane;
 public class UserWindow extends JFrame {
     UserManager userManager = UserManager.getInstance();
 
-    private User user;
+    private final User user;
 
     //
     JList<String> followersList;
@@ -136,12 +136,12 @@ public class UserWindow extends JFrame {
     private void followNewUser(String input){
         if (input == null || input.isEmpty()) {
             // Show some error message
-            JOptionPane.showMessageDialog(null, "User ID cannot be empty.");
+            JOptionPane.showMessageDialog(null, "User ID cannot be empty.", "Error",JOptionPane.ERROR_MESSAGE);
             return;
         }
 
-        if (userManager.isUserExist(input) == false){
-            JOptionPane.showMessageDialog(null, "User ID doesn't exist");
+        if (!userManager.isUserExist(input)){
+            JOptionPane.showMessageDialog(null, "User ID doesn't exist", "Error",JOptionPane.ERROR_MESSAGE);
             return;
         }
         user.addFollowing(userManager.getUserRef(input));

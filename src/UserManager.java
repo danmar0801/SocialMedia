@@ -31,8 +31,7 @@ public class UserManager {
         userMap.put(user.getId(),user);
     }
     public User getUserRef(String input){
-        User user = userMap.get(input);
-        return user;
+        return userMap.get(input);
     }
     public String[] getUserFollowing(User user){
         List<User> following = user.getFollowing();
@@ -46,7 +45,7 @@ public class UserManager {
         root = group;
     }
     public void addGroup(Groups group){
-        if (group.getId() == "Root"){
+        if (group.getId().equals("Root")){
             addRootGroup(group);
         }
         groupsList.add(group);
@@ -85,8 +84,7 @@ public class UserManager {
     }
 
     public boolean isUserExist(String ID){
-        if (userMap.containsKey(ID)) {return true;}
-        return false;
+        return userMap.containsKey(ID);
     }
 
 }

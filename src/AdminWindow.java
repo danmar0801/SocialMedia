@@ -120,9 +120,7 @@ public class AdminWindow extends JFrame {
         JButton openUserPanelButton = new JButton("Open User Panel");
         openUserPanelButton.setAlignmentX(Component.CENTER_ALIGNMENT);
 
-        openUserPanelButton.addActionListener(e -> {
-            openUserPanel();
-        });
+        openUserPanelButton.addActionListener(e -> openUserPanel());
 
         userControlPanel.add(openUserPanelButton);
 
@@ -145,12 +143,8 @@ public class AdminWindow extends JFrame {
         JButton addGroupButton = new JButton("Add Group");
 
         // functions for buttons
-        addUserButton.addActionListener(e->{
-            addNewUser(userIDTextField.getText());
-        });
-        addGroupButton.addActionListener(e->{
-            addNewGroup(groupIdTextField.getText());
-        });
+        addUserButton.addActionListener(e-> addNewUser(userIDTextField.getText()));
+        addGroupButton.addActionListener(e-> addNewGroup(groupIdTextField.getText()));
 
         // Add components to the panel
         userInputPanel.add(userIDTextField);
@@ -180,25 +174,17 @@ public class AdminWindow extends JFrame {
 
         //functions for buttons
         // total user count
-        showUserTotalButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "The total user count is: " + userManager.getTotalUsers(),
-                    "User Count", JOptionPane.INFORMATION_MESSAGE);
-        });
+        showUserTotalButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "The total user count is: " + userManager.getTotalUsers(),
+                "User Count", JOptionPane.INFORMATION_MESSAGE));
         // total group count
-        showGroupTotalButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "The total group count is: " + userManager.getTotalGroups(),
-                    "Group Count", JOptionPane.INFORMATION_MESSAGE);
-        });
+        showGroupTotalButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "The total group count is: " + userManager.getTotalGroups(),
+                "Group Count", JOptionPane.INFORMATION_MESSAGE));
         //total message count
-        showMessagesTotalButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "The total message count is: " + userManager.getPostCount(),
-                    "Message Count", JOptionPane.INFORMATION_MESSAGE);
-        });
+        showMessagesTotalButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "The total message count is: " + userManager.getPostCount(),
+                "Message Count", JOptionPane.INFORMATION_MESSAGE));
         // total positivity
-        showPositiveTotalButton.addActionListener(e -> {
-            JOptionPane.showMessageDialog(this, "The positivity score is: " + userManager.getPositivityScore(),
-                    "Positivity Score", JOptionPane.INFORMATION_MESSAGE);
-        });
+        showPositiveTotalButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "The positivity score is: " + userManager.getPositivityScore(),
+                "Positivity Score", JOptionPane.INFORMATION_MESSAGE));
         // Add buttons to grid panel
         buttonPanel.add(showGroupTotalButton);
         buttonPanel.add(showUserTotalButton);
@@ -211,8 +197,7 @@ public class AdminWindow extends JFrame {
     }
 
     private void buildTree(UserGroupComponent component, DefaultMutableTreeNode node) {
-        if (component instanceof Groups) {
-            Groups group = (Groups) component;
+        if (component instanceof Groups group) {
             for (UserGroupComponent childComponent : group.getComponents()) {
                 DefaultMutableTreeNode childNode = new DefaultMutableTreeNode(childComponent.getId());
                 node.add(childNode);
@@ -221,13 +206,13 @@ public class AdminWindow extends JFrame {
         }
     }
 
-    public void openUserPanel(){
+    private void openUserPanel(){
         // Debugging output
         System.out.println("Selected Object: " + selectedObject);
         User users = userManager.getUserRef((String) selectedObject);
 
-        if (users instanceof User) {
-            UserWindow frame2 = new UserWindow(users);  // Open the window with the selected User
+        if (users != null) {
+            new UserWindow(users);  // Open the window with the selected User
         } else {
             // Provide more detailed error information
             if (selectedObject == null) {
@@ -239,7 +224,7 @@ public class AdminWindow extends JFrame {
 
     }
 
-    public void addNewUser(String ID){
+    private void addNewUser(String ID){
         // Validate the ID (pseudo-code, implement this according to your validation rules)
         if (ID == null || ID.isEmpty()) {
             // Show some error message
@@ -264,7 +249,7 @@ public class AdminWindow extends JFrame {
         // Ensure the new user node is visible
         tree.scrollPathToVisible(new TreePath(userNode.getPath()));
     }
-    public void addNewGroup(String ID){
+    private void addNewGroup(String ID){
         // Validate the ID (pseudo-code, implement this according to your validation rules)
         if (ID == null || ID.isEmpty()) {
             // Show some error message
@@ -282,5 +267,7 @@ public class AdminWindow extends JFrame {
         // Ensure the new user node is visible
         tree.scrollPathToVisible(new TreePath(GroupNode.getPath()));
     }
+
+
 }
 

@@ -5,7 +5,7 @@ import java.util.List;
 public class Groups implements UserGroupComponent{
 
     UserManager userManager = UserManager.getInstance();
-    private List<UserGroupComponent> components = new ArrayList<>();
+    private final List<UserGroupComponent> components = new ArrayList<>();
     private String id;
 
     public Groups(String id){
