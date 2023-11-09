@@ -1,9 +1,19 @@
-import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+class setID implements Visitor{
+    @Override
+    public void visitUser(User user) {
+        user.setID("ID");
 
+    }
+
+    @Override
+    public void visitGroup(Groups group) {
+
+    }
+}
 // this class is responsible for user and group operations. this class
 // implements the singleton design patterns and acts as a client to the user and group classes
 // it
@@ -13,7 +23,7 @@ public class UserManager {
     Groups root;
     private static UserManager instance = null;
     Map<String, User> userMap = new HashMap<>();
-    List<Groups> groupsList = new ArrayList<>();
+    Map<String, Groups> groupsList = new HashMap<>();
     int postCount = 0;
 
     private UserManager() {
@@ -48,7 +58,7 @@ public class UserManager {
         if (group.getId().equals("Root")){
             addRootGroup(group);
         }
-        groupsList.add(group);
+        groupsList.put(group.getId(),group);
     }
     public Groups getRootGroup(){
         return root;
@@ -87,4 +97,7 @@ public class UserManager {
         return userMap.containsKey(ID);
     }
 
+    public Groups getGroupRef(String selectedObject) {
+        return groupsList.get(selectedObject);
+    }
 }

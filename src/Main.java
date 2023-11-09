@@ -10,7 +10,12 @@ public class Main {
 
     * */
     public static void main(String[] args) {
-        UserManager userManager = UserManager.getInstance();
+        // things to do
+        // implement the post feature
+        // Singleton - admin window. user manager
+        // composite - user/group hierarchy. Swing in admin window and user window
+        // visitor - user manager
+        // observer - posting feature/
         User user1 = new User("Danny-111");
 
         User user2 = new User("fluffy23");
@@ -40,6 +45,7 @@ public class Main {
         csMajor.add(user2);
         Athletes.add(user3);
         Major.add(user4);
+        Athletes.add(user4);
         root.add(csMajor);
         root.add(Major);
         root.add(Athletes);
@@ -49,7 +55,7 @@ public class Main {
 
 
 
-        AdminWindow frame = AdminWindow.getInstance();
+        AdminWindow.getInstance();
 
         //UserWindow frame2 = new UserWindow(user1);
 

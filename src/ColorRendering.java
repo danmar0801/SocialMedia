@@ -17,8 +17,7 @@ public class ColorRendering {
     private static final Color TEXT_COLOR = Color.WHITE;
     public static void changeButtonColors(Container container) {
         for (Component comp : container.getComponents()) {
-            if (comp instanceof JButton) {
-                JButton button = (JButton) comp;
+            if (comp instanceof JButton button) {
                 button.setBackground(BUTTON_COLOR);
                 button.setForeground(TEXT_COLOR); // Set text color
                 button.setOpaque(true);
@@ -31,8 +30,7 @@ public class ColorRendering {
 
     public static void changeTextFieldColors(Container container) {
         for (Component comp : container.getComponents()) {
-            if (comp instanceof JTextField) {
-                JTextField field = (JTextField) comp;
+            if (comp instanceof JTextField field) {
                 field.setBackground(FIELD_COLOR);
                 field.setForeground(TEXT_COLOR); // Set text color
                 field.setOpaque(true);
@@ -45,8 +43,7 @@ public class ColorRendering {
 
     public static void changeLabelColors(Container container) {
         for (Component comp : container.getComponents()) {
-            if (comp instanceof JLabel) {
-                JLabel label = (JLabel) comp;
+            if (comp instanceof JLabel label) {
                 label.setForeground(LABEL_COLOR); // Set text color
             } else if (comp instanceof Container) {
                 changeLabelColors((Container) comp);
@@ -56,8 +53,7 @@ public class ColorRendering {
 
     public static void changePanelBackground(Container container) {
         for (Component comp : container.getComponents()) {
-            if (comp instanceof JPanel) {
-                JPanel panel = (JPanel) comp;
+            if (comp instanceof JPanel panel) {
                 panel.setBackground(PANEL_COLOR);
                 panel.setOpaque(true); // Ensure the panel is opaque
                 panel.repaint(); // Repaint to show the new color
@@ -71,8 +67,7 @@ public class ColorRendering {
     }
     public static void changeListBackground(Container container) {
         for (Component comp : container.getComponents()) {
-            if (comp instanceof JList) {
-                JList list = (JList) comp;
+            if (comp instanceof JList list) {
                 list.setBackground(LIST_COLOR);
                 list.setForeground(TEXT_COLOR);
                 list.setOpaque(true); // Ensure the panel is opaque
@@ -85,5 +80,8 @@ public class ColorRendering {
                 changeListBackground((Container) comp);
             }
         }
+    }
+    public static void renderTree(){
+
     }
 }

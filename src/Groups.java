@@ -13,6 +13,10 @@ public class Groups implements UserGroupComponent{
         userManager.addGroup(this);
     }
 
+    public void accept(Visitor visitor) {
+        visitor.visitGroup(this);
+    }
+
     public List<UserGroupComponent> getComponents() {
         // You could return an unmodifiable list to prevent external modification:
         return Collections.unmodifiableList(components);

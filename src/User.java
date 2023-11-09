@@ -1,6 +1,7 @@
 import java.util.ArrayList;
 import java.util.List;
 
+
 public class User  implements UserGroupComponent{
     UserManager userManager = UserManager.getInstance();
     private String userID;
@@ -12,6 +13,9 @@ public class User  implements UserGroupComponent{
         this.userID = userID;
         this.following = new ArrayList<>();
         userManager.addUserToMap(this);
+    }
+    public void accept(Visitor visitor) {
+        visitor.visitUser(this);
     }
 
     // users cannot add or remove no does it have children
@@ -46,12 +50,6 @@ public class User  implements UserGroupComponent{
     public void addFollowing(User user){
         following.add(user);
     }
-    // this method is for testing purposes
-    /*public void printFollowing() {
-        for (User user : following) {
-            System.out.println(user.getId());
-        }
-    }*/
 
     public List<String> getPosts() {
         return posts;
@@ -61,7 +59,6 @@ public class User  implements UserGroupComponent{
         this.posts = posts;
         userManager.setPostCount(userManager.getPostCount()+posts.size());
     }
-
     public void addPost(String post){
         posts.add(post);
         userManager.incPostCount();

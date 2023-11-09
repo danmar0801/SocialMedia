@@ -66,8 +66,6 @@ public class AdminWindow extends JFrame {
         leftPanel.setBorder(BorderFactory.createLineBorder(Color.black,1,true));
         leftPanel.setPreferredSize(new Dimension(300, 700));
 
-
-
         rootNode = new DefaultMutableTreeNode(userManager.getRootGroup().getId());
         treeModel = new DefaultTreeModel(rootNode);
         // Build the tree model from the rootComponent
@@ -185,6 +183,7 @@ public class AdminWindow extends JFrame {
         // total positivity
         showPositiveTotalButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "The positivity score is: " + userManager.getPositivityScore(),
                 "Positivity Score", JOptionPane.INFORMATION_MESSAGE));
+
         // Add buttons to grid panel
         buttonPanel.add(showGroupTotalButton);
         buttonPanel.add(showUserTotalButton);
@@ -224,8 +223,8 @@ public class AdminWindow extends JFrame {
 
     }
 
-    private void addNewUser(String ID){
-        // Validate the ID (pseudo-code, implement this according to your validation rules)
+    private void addNewUser(String ID) {
+        // Validate the ID
         if (ID == null || ID.isEmpty()) {
             // Show some error message
             JOptionPane.showMessageDialog(null, "User ID cannot be empty.");
@@ -236,21 +235,34 @@ public class AdminWindow extends JFrame {
             JOptionPane.showMessageDialog(null, "User ID already exists.");
             return;
         }
-        User newUser = new User(ID);
-        userManager.getRootGroup().add(newUser);
 
-        // Add the new user to the rootNode
-        DefaultMutableTreeNode userNode = new DefaultMutableTreeNode(newUser.getId());
-        rootNode.add(userNode);
+        // Check if a group is selected
+        DefaultMutableTreeNode selectedNode = (DefaultMutableTreeNode) tree.getLastSelectedPathComponent();
+        if (selectedNode != null && selectedObject instanceof String) {
+            UserGroupComponent selectedGroup = userManager.getGroupRef((String) selectedObject);
+            if (selectedGroup instanceof Groups) {
+                // Add the new user to the selected group
+                User newUser = new User(ID);
+                ((Groups) selectedGroup).add(newUser);
 
-        // Notify the tree model
-        treeModel.reload(rootNode);
+                // Add the new user to the selected node in the tree
+                DefaultMutableTreeNode userNode = new DefaultMutableTreeNode(newUser.getId());
+                selectedNode.add(userNode);
 
-        // Ensure the new user node is visible
-        tree.scrollPathToVisible(new TreePath(userNode.getPath()));
+                // Notify the tree model to update the JTree view
+                treeModel.reload(selectedNode);
+
+                //new user node is visible
+                tree.scrollPathToVisible(new TreePath(userNode.getPath()));
+            } else {
+                JOptionPane.showMessageDialog(null, "Selected item is not a group.");
+            }
+        } else {
+            JOptionPane.showMessageDialog(null, "No group is selected or selection is invalid.");
+        }
     }
     private void addNewGroup(String ID){
-        // Validate the ID (pseudo-code, implement this according to your validation rules)
+        // Validate the ID
         if (ID == null || ID.isEmpty()) {
             // Show some error message
             JOptionPane.showMessageDialog(null, "User ID cannot be empty.");
