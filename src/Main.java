@@ -13,7 +13,9 @@ public class Main {
         // things to do
         // make sure user can't be added to more than one group, add a visitor to visit groups
         // add groups to other groups
-        // visitor to go through the posts of every user and find specific words/
+        // visitor to go through the posts of every user and find specific words
+        // maybe add option to unfollow users
+        // add option to delete users from admin panel/
         // Singleton - admin window. user manager
         // composite - user/group hierarchy. Swing in admin window and user window
         // visitor - user manager
