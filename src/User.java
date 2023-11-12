@@ -2,22 +2,33 @@ import java.util.ArrayList;
 import java.util.List;
 
 
-public class User  implements UserGroupComponent{
+public class User  implements UserGroupComponent, Observer, Subject{
     UserManager userManager = UserManager.getInstance();
     private String userID;
+    // users this user follow
     private List<User> following;
+
+    // users that follow this user
     private List<User> followers;
-    private List<String> posts;
+    // this list includes their posts and the posts of the accounts they follow
+    private List<Post> posts;
+    private String[] feed;
 
     public User(String userID){
         this.userID = userID;
         this.following = new ArrayList<>();
+        this.followers = new ArrayList<>();
+        this.posts = new ArrayList<>();
+        // this will add the user to the master list of all users
         userManager.addUserToMap(this);
+
     }
+    // method to accept visitor
     public void accept(Visitor visitor) {
         visitor.visitUser(this);
     }
 
+    // methods from the UserGroup Interface
     // users cannot add or remove no does it have children
     public void add(UserGroupComponent component) {
         throw new UnsupportedOperationException();
@@ -43,24 +54,58 @@ public class User  implements UserGroupComponent{
         return following;
     }
 
-    public void setFollowing(List<User> following) {
-        this.following = following;
-    }
-
     public void addFollowing(User user){
         following.add(user);
+        // this will update the followers list of the user to include this user
+        user.addFollower(this);
+
     }
 
-    public List<String> getPosts() {
+    public void addFollower(User user) {
+        followers.add(user);
+    }
+    public List<User> getFollowers(){
+        return followers;
+    }
+    public List<Post> getPosts() {
         return posts;
     }
 
-    public void setPosts(List<String> posts) {
-        this.posts = posts;
-        userManager.setPostCount(userManager.getPostCount()+posts.size());
-    }
-    public void addPost(String post){
+
+
+    public void addPost(String text){
+        Post post = new Post(text, this);
         posts.add(post);
         userManager.incPostCount();
+    }
+
+
+    public void registerObserver(User o) {
+        if (!followers.contains(o)) {
+            followers.add(o);
+        }
+
+    }
+
+    public void removeObserver(User o) {
+        // this method won't be implemented now
+    }
+
+    public void notifyObservers(String message) {
+        for (Observer follower : followers) {
+            follower.updateFeed();
+        }
+    }
+
+    public void updateFeed() {
+        getUserFeed userFeed = new getUserFeed(this);
+        List<Post> masterFeed = userFeed.getMasterFeed();
+        feed = FormatFeed.formatFeed(masterFeed);
+    }
+
+    public String[] getFeed(){
+        // update the feed to make sure we get the latest posts no matter what
+        updateFeed();
+        return feed;
     }
 }

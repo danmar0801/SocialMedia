@@ -11,11 +11,14 @@ public class Main {
     * */
     public static void main(String[] args) {
         // things to do
-        // implement the post feature
+        // make sure user can't be added to more than one group, add a visitor to visit groups
+        // add groups to other groups
+        // visitor to go through the posts of every user and find specific words/
         // Singleton - admin window. user manager
         // composite - user/group hierarchy. Swing in admin window and user window
         // visitor - user manager
         // observer - posting feature/
+        UserManager userManager = UserManager.getInstance();
         User user1 = new User("Danny-111");
 
         User user2 = new User("fluffy23");
@@ -45,19 +48,22 @@ public class Main {
         csMajor.add(user2);
         Athletes.add(user3);
         Major.add(user4);
-        Athletes.add(user4);
         root.add(csMajor);
         root.add(Major);
         root.add(Athletes);
 
 
         //userManager.addRootGroup(root);
+        user2.addPost("Message from user 2");
+        user3.addPost("Message from user 3");
 
 
-
+        //userManager.printFollowers(user1);
         AdminWindow.getInstance();
 
-        //UserWindow frame2 = new UserWindow(user1);
+
+
+        //new UserWindow(user1);
 
 
     }

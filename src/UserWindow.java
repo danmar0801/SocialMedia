@@ -1,8 +1,11 @@
 import javax.swing.*;
 import java.awt.*;
+import java.time.LocalTime;
+import java.time.format.DateTimeFormatter;
 import javax.swing.JFrame;
 import javax.swing.JList;
 import javax.swing.JScrollPane;
+
 
 public class UserWindow extends JFrame {
     UserManager userManager = UserManager.getInstance();
@@ -11,6 +14,7 @@ public class UserWindow extends JFrame {
 
     //
     JList<String> followersList;
+    JList<String> feedList;
 
     public UserWindow(User user) {
         this.user = user;
@@ -97,9 +101,9 @@ public class UserWindow extends JFrame {
 
     private JPanel createBottomPanel(){
         // Data for the list
-        String[] dataList = {"Item 1", "Item 2", "Item 3", "Item 4"};
+        String[] dataList = userManager.getUserFeed(user);
 
-        // Top panel setup
+        // Bottom panel setup
         JPanel bottomPanel = new JPanel();
         bottomPanel.setLayout(new BoxLayout(bottomPanel, BoxLayout.Y_AXIS));
         bottomPanel.setPreferredSize(new Dimension(800, 350));
@@ -107,23 +111,37 @@ public class UserWindow extends JFrame {
 
         // User input panel setup
         JPanel userInputPanel = new JPanel();
-        userInputPanel.setLayout(new GridLayout(1, 2, 5, 5));
+        userInputPanel.setLayout(new GridLayout(1, 3, 5, 5));
         userInputPanel.setMaximumSize(new Dimension(800, 50));
 
         // User ID text field setup
-        JTextField userIdTextField = new JTextField("Message Text");
+        JTextField postTextField = new JTextField("Message Text");
 
-        // Follow user button setup
+        // Post button setup
         JButton postMessButton = new JButton("Post");
 
-        // Add components to the user input panel
-        userInputPanel.add(userIdTextField);
-        userInputPanel.add(postMessButton);
+        // refresh button setup
+        JButton refreshButton = new JButton("Refresh");
 
-        // List view for followers setup
-        JList<String> followersList2 = new JList<>(dataList);
-        JScrollPane scrollPane = new JScrollPane(followersList2);
+        // Add components to the user input panel
+        userInputPanel.add(postTextField);
+        userInputPanel.add(postMessButton);
+        userInputPanel.add(refreshButton);
+
+        // List view for feed
+        feedList = new JList<>(dataList);
+        JScrollPane scrollPane = new JScrollPane(feedList);
         scrollPane.setBorder(BorderFactory.createEmptyBorder());
+
+        // add post to user
+        postMessButton.addActionListener(e -> {
+            String input = postTextField.getText();
+            postNewMessage(input);
+        });
+        // refresh feed when button is pressed
+        refreshButton.addActionListener(e -> {
+            refreshFeed();
+        });
 
         // Adding components to the top panel
         bottomPanel.add(userInputPanel);
@@ -134,12 +152,13 @@ public class UserWindow extends JFrame {
     }
 
     private void followNewUser(String input){
+        // input validation
         if (input == null || input.isEmpty()) {
             // Show some error message
             JOptionPane.showMessageDialog(null, "User ID cannot be empty.", "Error",JOptionPane.ERROR_MESSAGE);
             return;
         }
-
+        // check if the user exists
         if (!userManager.isUserExist(input)){
             JOptionPane.showMessageDialog(null, "User ID doesn't exist", "Error",JOptionPane.ERROR_MESSAGE);
             return;
@@ -149,5 +168,21 @@ public class UserWindow extends JFrame {
         String[] newDataList = userManager.getUserFollowing(user);
         // Set the new data list as the model for the JList
         followersList.setListData(newDataList);
+    }
+
+    private void postNewMessage(String input){
+        // input validation
+        if (input == null || input.isEmpty()) {
+            // Show some error message
+            JOptionPane.showMessageDialog(null, "Post text cannot be empty.", "Error",JOptionPane.ERROR_MESSAGE);
+            return;
+        }
+        user.addPost(input);
+        String[] newDataList = userManager.getUserFeed(user);
+        feedList.setListData(newDataList);
+    }
+    private void refreshFeed(){
+        String[] newDataList = userManager.getUserFeed(user);
+        feedList.setListData(newDataList);
     }
 }
