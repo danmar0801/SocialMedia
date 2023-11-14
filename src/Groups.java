@@ -5,7 +5,7 @@ import java.util.List;
 public class Groups implements UserGroupComponent{
 
     UserManager userManager = UserManager.getInstance();
-    private final List<UserGroupComponent> components = new ArrayList<>();
+    private  List<UserGroupComponent> components = new ArrayList<>();
     private String id;
 
     public Groups(String id){
@@ -13,7 +13,9 @@ public class Groups implements UserGroupComponent{
         userManager.addGroup(this);
     }
 
-
+    public void accept(Visitor visitor) {
+        visitor.visitGroup(this);
+    }
 
     public List<UserGroupComponent> getComponents() {
         // You could return an unmodifiable list to prevent external modification:

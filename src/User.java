@@ -1,9 +1,8 @@
 import java.util.ArrayList;
 import java.util.List;
 
-
 public class User  implements UserGroupComponent, Observer, Subject{
-    UserManager userManager = UserManager.getInstance();
+    private static final UserManager userManager = UserManager.getInstance();
     private String userID;
     // users this user follow
     private List<User> following;
@@ -60,18 +59,12 @@ public class User  implements UserGroupComponent, Observer, Subject{
         user.addFollower(this);
 
     }
-
     public void addFollower(User user) {
         followers.add(user);
-    }
-    public List<User> getFollowers(){
-        return followers;
     }
     public List<Post> getPosts() {
         return posts;
     }
-
-
 
     public void addPost(String text){
         Post post = new Post(text, this);

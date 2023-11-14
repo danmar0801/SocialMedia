@@ -55,12 +55,10 @@ public class Main {
         root.add(Athletes);
 
 
-        //userManager.addRootGroup(root);
         user2.addPost("Message from user 2");
         user3.addPost("Message from user 3");
 
 
-        //userManager.printFollowers(user1);
         AdminWindow.getInstance();
 
 

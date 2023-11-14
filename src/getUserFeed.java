@@ -42,6 +42,10 @@ public class getUserFeed implements Visitor{
 
     }
 
+    public void visitGroup(Groups group) {
+        // this method isn't need in this class
+    }
+
     public List<Post> getMasterFeed() {
         return masterFeed;
     }

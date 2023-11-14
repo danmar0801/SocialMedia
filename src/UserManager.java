@@ -1,6 +1,5 @@
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
+import javax.swing.tree.DefaultMutableTreeNode;
+import java.util.*;
 
 
 // this class is responsible for user and group operations. this class
@@ -32,7 +31,6 @@ public class UserManager {
         }
         return instance;
     }
-
 
     //methods to the user master list
     public void addUserToMap(User user){
@@ -84,7 +82,13 @@ public class UserManager {
     }
 
     public int getPositivityScore(){
-        return groupsList.size();
+        Set<String> listWords = new HashSet<>();
+        listWords.add("Message");
+        listWords.add("from");
+        PositiveReport wordCounter = new PositiveReport(listWords);
+        root.accept(wordCounter);
+        int totalOccurrences = wordCounter.getCounter();
+        return totalOccurrences;
     }
 
     public int getPostCount(){

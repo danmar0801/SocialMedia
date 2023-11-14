@@ -6,6 +6,11 @@ public class userVisitor implements Visitor{
 
     }
 
+    @Override
+    public void visitGroup(Groups group) {
+
+    }
+
     public String[] getFollowing(User user){
         List<User> following = user.getFollowing();
         String[] list = new String[following.size()];
@@ -15,8 +20,4 @@ public class userVisitor implements Visitor{
         return list;
     }
 
-
-    public void visitGroup(Groups group) {
-
-    }
 }

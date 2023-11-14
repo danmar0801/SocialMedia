@@ -1,5 +1,4 @@
 import java.util.List;
-import java.util.stream.Collectors;
 
 public class FormatFeed {
     public static String[] formatFeed(List<Post> posts) {
