@@ -20,10 +20,9 @@ public class getUserFeed implements Visitor{
         user.accept(this);
     }
     public void visitUser(User user) {
-        // get the user feed and add it to the
+        // get the user feed
         List<Post> userPosts = user.getPosts();
 
-        // get the posts from the following
         // list of following
         List<Post> follwoingPosts = new ArrayList<>();
         // go through every following and add their posts to following feed

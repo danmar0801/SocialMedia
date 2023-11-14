@@ -22,8 +22,6 @@ public class Post {
         return time;
     }
 
-
-
     public User getOwner() {
         return owner;
     }

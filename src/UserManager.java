@@ -1,20 +1,14 @@
-import javax.swing.tree.DefaultMutableTreeNode;
 import java.util.*;
 
 
 // this class is responsible for user and group operations. this class
 // implements the singleton design patterns and acts as a client to the user and group classes
-// it
 public class UserManager {
     private static UserManager instance = null;
     // the purpose of this list is to be able to have a master list of users to help see if a user exist or
-    // to connect a string to an object
+    // to connect a UserId to a User ref
     Map<String, User> userMap;
-    // master list of all groups
-    Map<String, Groups> groupsList;
-
-    // this group is used when building the tree view for the admin panel,
-    // also to retrieve the largest component in the user group hierarchy
+    Map<String, Groups> groupsList; // master list of all groups
     Groups root;
     int postCount = 0;
 
@@ -67,11 +61,6 @@ public class UserManager {
         }
         return list;
     }
-    public String[] getUserFeed(User user){
-        return user.getFeed();
-    }
-
-
 
     // methods for the stats
     public int getTotalUsers(){

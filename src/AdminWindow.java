@@ -279,7 +279,5 @@ public class AdminWindow extends JFrame {
         // Ensure the new user node is visible
         tree.scrollPathToVisible(new TreePath(GroupNode.getPath()));
     }
-
-
 }
 

@@ -55,8 +55,8 @@ public class Main {
         root.add(Athletes);
 
 
-        user2.addPost("Message from user 2");
-        user3.addPost("Message from user 3");
+        user2.addPost("Message from user 2, happy, good, nice");
+        user3.addPost("Message from user 3, nice, nice, happy");
 
 
         AdminWindow.getInstance();

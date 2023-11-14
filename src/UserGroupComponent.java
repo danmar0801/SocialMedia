@@ -5,6 +5,5 @@ public interface UserGroupComponent {
     UserGroupComponent getChild(int i);        // Used to get a child component of a group
     String getId();                          // To retrieve the unique identifier of the component
     void setID(String ID);                  // To set the unique identifier of the component
-
     void accept(Visitor visitor);            // to accept visitors
 }

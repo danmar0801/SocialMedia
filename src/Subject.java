@@ -1,6 +1,6 @@
 public interface Subject {
     void registerObserver(User o);
     void removeObserver(User o);
-    void notifyObservers(String message);
+    void notifyObservers();
 
 }

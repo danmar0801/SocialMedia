@@ -48,7 +48,7 @@ public class UserWindow extends JFrame {
         wrapperPanel.add(bottomPanel);
 
         // Add the wrapper panel to the frame
-        getContentPane().add(wrapperPanel); // By default, it's BorderLayout.CENTER
+        getContentPane().add(wrapperPanel);
 
         // Display the window
         setVisible(true);
@@ -99,7 +99,7 @@ public class UserWindow extends JFrame {
 
     private JPanel createBottomPanel(){
         // Data for the list
-        String[] dataList = userManager.getUserFeed(user);
+        String[] dataList = user.getFeed();
 
         // Bottom panel setup
         JPanel bottomPanel = new JPanel();
@@ -176,11 +176,11 @@ public class UserWindow extends JFrame {
             return;
         }
         user.addPost(input);
-        String[] newDataList = userManager.getUserFeed(user);
+        String[] newDataList = user.getFeed();
         feedList.setListData(newDataList);
     }
     private void refreshFeed(){
-        String[] newDataList = userManager.getUserFeed(user);
+        String[] newDataList = user.getFeed();
         feedList.setListData(newDataList);
     }
 }

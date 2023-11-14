@@ -74,14 +74,9 @@ public class ColorRendering {
                 list.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
                 list.repaint(); // Repaint to show the new color
             }
-            // The check is made here to include the case when comp is a JPanel
-            // as JPanel itself is a Container, and could contain other panels.
             if (comp instanceof Container) {
                 changeListBackground((Container) comp);
             }
         }
-    }
-    public static void renderTree(){
-
     }
 }
