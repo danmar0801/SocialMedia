@@ -57,7 +57,7 @@ public class UserManager {
         List<User> following = user.getFollowing();
         String[] list = new String[following.size()];
         for (int i = 0; i < following.size(); i++) {
-            list[i] = following.get(i).getId();
+            list[i] = following.get(i).getId()+" (last active on: "+following.get(i).getLastUpadteTime()+ ")";
         }
         return list;
     }
@@ -85,5 +85,16 @@ public class UserManager {
     }
     public void incPostCount(){
         postCount++;
+    }
+
+    int validateID(){
+        ValidateID checkID = new ValidateID();
+        root.accept(checkID);
+        return checkID.getTotalInvalidIds();
+    }
+    String lastActiveUser(){
+        LastActiveUser lastUser = new LastActiveUser();
+        root.accept(lastUser);
+        return lastUser.getLastUser().getId();
     }
 }

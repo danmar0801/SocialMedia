@@ -102,7 +102,7 @@ public class AdminWindow extends JFrame {
         // Top right panel for user control inputs and actions
         JPanel userControlPanel = new JPanel();
         userControlPanel.setLayout(new BoxLayout(userControlPanel, BoxLayout.Y_AXIS));
-        userControlPanel.setMaximumSize(new Dimension(700, 600));
+        userControlPanel.setMaximumSize(new Dimension(700, 550));
         userControlPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         userControlPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
@@ -157,18 +157,20 @@ public class AdminWindow extends JFrame {
         // Bottom right panel for displaying statistics
         JPanel statisticsPanel = new JPanel();
         statisticsPanel.setLayout(new BoxLayout(statisticsPanel, BoxLayout.Y_AXIS));
-        statisticsPanel.setMaximumSize(new Dimension(700, 100));
+        statisticsPanel.setMaximumSize(new Dimension(700, 150));
         statisticsPanel.setBorder(BorderFactory.createLineBorder(Color.black));
         statisticsPanel.setBorder(BorderFactory.createEmptyBorder(10,10,10,10));
 
         // Grid panel for statistic buttons
-        JPanel buttonPanel = new JPanel(new GridLayout(2, 2, 10, 10));
+        JPanel buttonPanel = new JPanel(new GridLayout(3, 2, 10, 10));
 
         // Buttons for showing various statistics
         JButton showUserTotalButton = new JButton("Show User Total");
         JButton showGroupTotalButton = new JButton("Show Group Total");
         JButton showMessagesTotalButton = new JButton("Show Messages Total");
         JButton showPositiveTotalButton = new JButton("Show Positive Total");
+        JButton validateIDButton = new JButton("Validate ID");
+        JButton showLastActiveUser = new JButton("Show Last Active User");
 
         //functions for buttons
         // total user count
@@ -177,18 +179,26 @@ public class AdminWindow extends JFrame {
         // total group count
         showGroupTotalButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "The total group count is: " + userManager.getTotalGroups(),
                 "Group Count", JOptionPane.INFORMATION_MESSAGE));
-        //total message count
+        // total message count
         showMessagesTotalButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "The total message count is: " + userManager.getPostCount(),
                 "Message Count", JOptionPane.INFORMATION_MESSAGE));
         // total positivity
         showPositiveTotalButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "The positivity score is: " + userManager.getPositivityScore(),
                 "Positivity Score", JOptionPane.INFORMATION_MESSAGE));
+        // Validate ID's
+        validateIDButton.addActionListener(e -> JOptionPane.showMessageDialog(this, "The total invalid ID count is: " + userManager.validateID(),
+                "Validate ID's", JOptionPane.INFORMATION_MESSAGE));
+        // Last Active user
+        showLastActiveUser.addActionListener(e -> JOptionPane.showMessageDialog(this, "Last Active User was: " + userManager.lastActiveUser(),
+                "Last Active User", JOptionPane.INFORMATION_MESSAGE));
 
         // Add buttons to grid panel
         buttonPanel.add(showGroupTotalButton);
         buttonPanel.add(showUserTotalButton);
         buttonPanel.add(showMessagesTotalButton);
         buttonPanel.add(showPositiveTotalButton);
+        buttonPanel.add(validateIDButton);
+        buttonPanel.add(showLastActiveUser);
 
         // Add button panel to statistics panel
         statisticsPanel.add(buttonPanel);
@@ -220,6 +230,7 @@ public class AdminWindow extends JFrame {
                 JOptionPane.showMessageDialog(this, "The selected item is not a user.", "Error", JOptionPane.ERROR_MESSAGE);
             }
         }
+        System.out.println("User created on: " + users.getCreationTime()); // display when the user is created
 
     }
 

@@ -31,7 +31,7 @@ public class UserWindow extends JFrame {
 
     private void initializeComponents() {
         // Configure the main window properties
-        setTitle("User Panel: " + user.getId());
+        setTitle("User Panel: " + user.getId() + "Created on: " + user.getCreationTime());
         setSize(800, 700);
         setResizable(false);
         setLocationRelativeTo(null);

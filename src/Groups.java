@@ -7,14 +7,21 @@ public class Groups implements UserGroupComponent{
     UserManager userManager = UserManager.getInstance();
     private  List<UserGroupComponent> components = new ArrayList<>();
     private String id;
+    private long creationTime;
 
     public Groups(String id){
         this.id = id;
         userManager.addGroup(this);
+        this.creationTime = System.currentTimeMillis();
     }
 
     public void accept(Visitor visitor) {
         visitor.visitGroup(this);
+    }
+
+    @Override
+    public long getCreationTime() {
+        return creationTime;
     }
 
     public List<UserGroupComponent> getComponents() {

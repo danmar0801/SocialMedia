@@ -26,6 +26,7 @@ public class Main {
         User user2 = new User("fluffy23");
         User user3 = new User("ace12");
         User user4 = new User("cryptoking200");
+        User user5 = new User("cryptoking200");
 
 
         user1.addFollowing(user2);
@@ -49,6 +50,7 @@ public class Main {
         csMajor.add(user1);
         csMajor.add(user2);
         Athletes.add(user3);
+        Athletes.add(user5);
         Major.add(user4);
         root.add(csMajor);
         root.add(Major);

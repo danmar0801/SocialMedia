@@ -6,4 +6,6 @@ public interface UserGroupComponent {
     String getId();                          // To retrieve the unique identifier of the component
     void setID(String ID);                  // To set the unique identifier of the component
     void accept(Visitor visitor);            // to accept visitors
+
+    long getCreationTime();            // to return the creation time of the object
 }

@@ -9,6 +9,9 @@ public class User  implements UserGroupComponent, Observer, Subject{
     private String[] feed;        // this list includes their posts and the posts of the accounts they follow
     private List<Post> posts;     // list of posts from this user only
 
+    private long creationTime;
+    private long lastUpadteTime;
+
 
     public User(String userID){
         this.userID = userID;
@@ -16,11 +19,17 @@ public class User  implements UserGroupComponent, Observer, Subject{
         this.followers = new ArrayList<>();
         this.posts = new ArrayList<>();
         userManager.addUserToMap(this); // this will add the user to the master list of all users
-
+        this.creationTime = System.currentTimeMillis();
+        this.lastUpadteTime = System.currentTimeMillis();
     }
     // method to accept visitor
     public void accept(Visitor visitor) {
         visitor.visitUser(this);
+    }
+
+
+    public long getCreationTime() {
+        return creationTime;
     }
 
     // methods from the UserGroup Interface
@@ -65,7 +74,12 @@ public class User  implements UserGroupComponent, Observer, Subject{
         Post post = new Post(text, this);
         posts.add(post);
         userManager.incPostCount();
+        this.lastUpadteTime = System.currentTimeMillis();
         notifyObservers(); // Notify all followers about the new post
+    }
+
+    public long getLastUpadteTime(){
+        return lastUpadteTime;
     }
 
     public void registerObserver(User o) {
